@@ -222,12 +222,12 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
 ## Step 3.0: Flash!
 
- Now we need to flash the compiled file
+ Now we need to flash the compiled file.
  ```sh
  sudo flashrom --programmer ch341a_spi -w build/coreboot.rom
  ```
 
- İf everything is fine, you should get such an output like
+ If everything is fine, you should get such an output like
  ```sh
  avsar@archlinux ~/coreboot$ sudo flashrom --programmer ch341a_spi -w build/coreboot.rom
  [sudo] password for avsar:
@@ -244,4 +244,60 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
  ```
  Disconnect the USB connection (definitely do it first), take the chip and insert it into the motherboard as in 1.0.
 
- ## Step 4.0: Test time!
+## Step 4.0: Test time!
+
+ If you saw a nice rabbit logo when the computer booted up, yep everything works. (sorry for the bad quality).
+
+ ![nice rabbit](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_015914.jpg)
+
+ After that you will need to put your favourite bootloader in first boot order and run it.
+
+ ![image1](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013239.jpg)
+
+ ![image2](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013250.jpg)
+
+ Save and reboot and you will get a nice bootloader screen 😸
+
+ ![image3](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013324.jpg)
+
+ The rest is up to you... and these are my OS screenshots.
+
+ ![linux](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/linux.png)
+ ![windows](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/windows.png)
+
+ ### And is it over?? IT'S NOT OVER! I'll give you one more little tip.
+
+## Step 2.3.5: BEEP BOOP BOOP BEEP? Speaker TIME!
+
+ Do you miss the opening sound? Yeah, we'll do something similar.
+ Go to src/mainboard/asus/h61-series/mainboard.c and add these things and go back to step 2.6
+ ```sh
+ --- a/src/mainboard/asus/h61-series/mainboard.c
+ +++ b/src/mainboard/asus/h61-series/mainboard.c
+ @@ -2,6 +2,12 @@
+  
+  #include <device/device.h>
+  #include <drivers/intel/gma/int15.h>
+ +#include <pc80/i8254.h>
+ +
+ +static void mainboard_final(void *unused)
+ +{
+ +       beep(1500, 100);
+ +}
+  
+  static void mainboard_enable(struct device *dev)
+  {
+ @@ -12,4 +18,5 @@ static void mainboard_enable(struct device *dev)
+  
+  struct chip_operations mainboard_ops = {
+         .enable_dev = mainboard_enable,
+ +       .final = mainboard_final,
+  };
+ ```
+
+# Last words
+ I've been trying to make this tutorial for about 4 hours.
+
+ Actually, I didn't want to do it at first, but my friends asked me to add it, so I did some work and prepared a nice guide.
+
+ Thank you to the whole coreboot team, Corna for the me_cleaner project and MrChromebox for his help and his excellent edk2 project.
