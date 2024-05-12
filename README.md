@@ -1,11 +1,11 @@
 # Guide for coreboot to ASUS P8H61-M LX3 PLUS R2.0
-I'm happy to write a guide for first time in my life.
+I'm happy to write a guide for the first time in my life.
 
 In this tutorial, we'll learn how to replace the motherboard stock firmware with an **open source** firmware.
 
-And I have to say from the beginning of this guide, I'm not responsible for bricked motherboard, burnt rom, thermonuclear war, or you getting fired because of data loss. **All responsibility is YOURS**
+And I have to say from the beginning of this guide, I'm not responsible for bricked motherboard, burnt rom, thermonuclear war, or you getting fired because of data loss. **All responsibility is YOURS!!**
 
-## First let's explain what coreboot and EDK2 are,
+## First let's explain what coreboot and EDK2 is,
 From [coreboot](https://github.com/coreboot/coreboot/blob/main/README.md):
 coreboot is a Free Software project aimed at replacing the proprietary firmware (BIOS/UEFI) found in most computers. coreboot performs the required hardware initialization to configure the system, then passes control to a different executable, referred to in coreboot as the payload. Most often, the primary function of the payload is to boot the operating system (OS).
 
@@ -15,11 +15,11 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
 # Requirements
 - A [CH341A Programmer](https://a.co/d/a06cM4g). (I recommend you to use with [USB Extension Cable](https://a.co/d/ehjoGVo))
-- [Chip Puller](https://a.co/d/3fNkbOA) (optional, I removed with 2 small knives (be careful!!))
+- [Chip Puller](https://a.co/d/3fNkbOA) (Optional, I removed with 2 small knives (be careful!!))
 - An ASUS P8H61-M LX3 PLUS R2.0 motherboard, no dGPU included
 - Good level of GNU/Linux knowledge
 - Basic hardware knowledge
-- Another computer running GNU/Linux distro (btw I'm using Arch)
+- Another computer running GNU/Linux distro (BTW I use Arch)
 
 ### What works
 - Sound (back and front panel)
@@ -48,9 +48,9 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
  
  ### 1.1: Backup!
 
- We need to make a backup in case of any problems (we'll also get some blobs from here)
+ We need to make a backup in case of any problems (we'll also get some blobs from here).
  
- Firstly, install flashrom on your favorite distro
+ Firstly, install flashrom on your favourite distro.
  ```sh
  # Debian based distros
  sudo apt-get update && sudo apt-get install -y flashrom
@@ -59,12 +59,12 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
  sudo pacman -Sy flashrom
  ```
  
- Then, we'll have to extract the existing firmware with this
+ Then, we'll have to extract the existing firmware with this.
  ```sh
  sudo flashrom --programmer ch341a_spi -r backup.bin
  ```
 
- (You can do this 2 times to make sure that the hashes of these two backup roms are same)
+ (You can do this 2 times to make sure that the hashes of these two backup roms are same).
  ```sh
  sudo flashrom --programmer ch341a_spi -r backup1.bin
  diff backup.bin backup1.bin
@@ -175,7 +175,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  ### 2.5 Extract the GOP Driver from Firmware
  
-  Remember the backup we made, shown in 1.1? Yep. Now we will get the GOP driver from there so that the display can work.
+  Remember the backup we made, shown in 1.1? Yep. Now we'll get the GOP driver from there so that the display can work.
 
   Install [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/A68/UEFITool_NE_A68_x64_linux.zip) and open the backup firmware
 
@@ -227,7 +227,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
  sudo flashrom --programmer ch341a_spi -w build/coreboot.rom
  ```
 
- If everything is fine, you should get such an output like
+ If everything is fine, you should get an output like
  ```sh
  avsar@archlinux ~/coreboot$ sudo flashrom --programmer ch341a_spi -w build/coreboot.rom
  [sudo] password for avsar:
@@ -250,13 +250,13 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  ![nice rabbit](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_015914.jpg)
 
- After that you will need to put your favourite bootloader in first boot order and run it.
+ After that you'll need to put your favourite bootloader in first boot order and run it.
 
  ![image1](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013239.jpg)
 
  ![image2](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013250.jpg)
 
- Save and reboot and you will get a nice bootloader screen 😸
+ Save and reboot and you'll get a nice bootloader screen 😸
 
  ![image3](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013324.jpg)
 
@@ -269,7 +269,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
 ## Step 2.3.5: BEEP BOOP BOOP BEEP? Speaker TIME!
 
- Do you miss the opening sound? Yeah, we'll do something similar.
+ Did you miss the opening sound? Yeah, we'll do something similar.
  Go to src/mainboard/asus/h61-series/mainboard.c and add these things and go back to step 2.6
  ```sh
  --- a/src/mainboard/asus/h61-series/mainboard.c
@@ -300,4 +300,4 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  Actually, I didn't want to do it at first, but my friends asked me to add it, so I did some work and prepared a nice guide.
 
- Thank you to the whole coreboot team, Corna for the me_cleaner project and MrChromebox for his help and his excellent edk2 project.
+ Thank you to the whole coreboot team, Corna for the me_cleaner project and MrChromebox for his help and his excellent EDK2 project.
