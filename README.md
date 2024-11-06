@@ -56,7 +56,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
  sudo apt-get update && sudo apt-get install -y flashrom
  
  # Arch based distros
- sudo pacman -Sy flashrom
+ sudo pacman -S flashrom
  ```
  
  Then, we'll have to extract the existing firmware with this.
@@ -89,10 +89,10 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
  Firstly, we need to install the necessary dependencies for coreboot
   ```sh
   # Debian based distros
-  sudo apt-get update && sudo apt-get install -y bison build-essential curl flex git gnat libncurses5-dev libssl-dev m4 zlib1g-dev pkg-config nasm imagemagick flashrom
+  sudo apt-get update && sudo apt-get install -y bison build-essential curl flex git gnat libncurses5-dev libssl-dev m4 zlib1g-dev pkg-config nasm imagemagick
   
   # Arch based distros
-  sudo pacman -Sy base-devel gcc-ada flex bison ncurses wget zlib git nasm imagemagick flashrom
+  sudo pacman -S base-devel gcc-ada flex bison ncurses wget zlib git nasm imagemagick
   ```
 
  ### 2.1: Clone coreboot
