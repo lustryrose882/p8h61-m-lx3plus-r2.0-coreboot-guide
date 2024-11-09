@@ -22,7 +22,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - Another computer running GNU/Linux distro (BTW I use Arch)
 
 ### What works
-- Sound (back and front panel)
+- Sound (there's a weird bug in Pipewire daemon, IDK how to fix it but it's fine on Windows)
 - All USB Ports
 - Display
 - S3 Sleep Mode
@@ -35,7 +35,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - PS/2 Input
 - PCI-e graphics (actually I can boot successfully into SeaBIOS payload)
 - Hibernation
-- Serial Port
+- Serial Port (in fact, the serial port doesn't even have a port)
 
 # Preparing
 
@@ -111,10 +111,12 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  ### 2.3 Neutralising Intel ME
  
-  Here we'll activate the killswitch using the [HAP AltMeDisable](https://github.com/corna/me_cleaner/wiki/HAP-AltMeDisable-bit) bit and delete the ME sections
+  Here we'll activate the killswitch using the [HAP AltMeDisable](https://github.com/corna/me_cleaner/wiki/HAP-AltMeDisable-bit) bit and delete *most of* the ME sections
+
+  (You need your backup file to get IFD and ME blobs)
   ```sh
   cd utils/me_cleaner/
-  python me_cleaner.py -S -r -t -d -O out.bin -D descriptor.bin -M me.bin ~/benimki.bin
+  python me_cleaner.py -S -r -t -d -O out.bin -D descriptor.bin -M me.bin ~/backup.bin
   ```
 
   Move these blobs in the folder we created before
@@ -271,7 +273,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  Did you miss the opening sound? Yeah, we'll do something similar.
  Go to src/mainboard/asus/h61-series/mainboard.c and add these things and go back to step 2.6
- ```sh
+ ```diff
  --- a/src/mainboard/asus/h61-series/mainboard.c
  +++ b/src/mainboard/asus/h61-series/mainboard.c
  @@ -2,6 +2,12 @@
