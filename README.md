@@ -16,13 +16,13 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 # Requirements
 - A [CH341A Programmer](https://a.co/d/a06cM4g). (I recommend you to use with [USB Extension Cable](https://a.co/d/ehjoGVo))
 - [Chip Puller](https://a.co/d/3fNkbOA) (Optional, I removed with 2 small knives (be careful!!))
-- An ASUS P8H61-M LX3 PLUS R2.0 motherboard, no dGPU included
+- Of course an ASUS P8H61-M LX3 PLUS R2.0 motherboard
 - Good level of GNU/Linux knowledge
 - Basic hardware knowledge
 - Another computer running GNU/Linux distro (BTW I use Arch)
 
 ### What works
-- Sound (there's a weird bug in Pipewire daemon, IDK how to fix it but it's fine on Windows)
+- Sound
 - All USB Ports
 - Display
 - S3 Sleep Mode
@@ -30,12 +30,14 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - Windows (don't use that 😛)
 - Neutralised Intel ME
 - UEFI + Secure Boot
-
+- PCI-e Graphics (see [below](#pcie-graphics))
 ### Untested
 - PS/2 Input
-- PCI-e graphics (actually I can boot successfully into SeaBIOS payload)
 - Hibernation
 - Serial Port (in fact, the serial port doesn't even have a port)
+### Known bugs
+- Sound doesn't work properly on Linux (ALSA issue), but Windows seems fine
+- Even if I define the MAC address it doesn't work, I guess someone else experienced it here [too](https://mail.coreboot.org/hyperkitty/list/coreboot@coreboot.org/message/ZVHCIZCB5H6P26CYX22BHZCV64AJVFII/)
 
 # Preparing
 
@@ -43,8 +45,8 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  After removing the CMOS battery and power, we'll be comfortable here because our motherboard has a removable socketed BIOS, so that we can easily pull out BIOS and place it in our lovely programmer (look carefully at the small semicircular thing).
 
- ![img1](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/IMG_20240511_224630.jpg)
- ![img2](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/IMG_20240511_224923.jpg)
+ ![img1](media/IMG_20240511_224630.jpg)
+ ![img2](media/IMG_20240511_224923.jpg)
  
  ### 1.1: Backup!
 
@@ -149,7 +151,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
       [*]   Add Intel ME/TXE firmware
        (3rdparty/blobs/mainboard/$(MAINBOARDDIR)/me.bin) Path to management engine firmware
 
-  Device ─>
+  Devices ─>
       Graphics initialization (None)  --->
       Early (romstage) graphics initialization (None)  --->
       [*] Use onboard VGA as primary video device
@@ -181,11 +183,11 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
   Install [UEFITool](https://github.com/LongSoft/UEFITool/releases/download/A68/UEFITool_NE_A68_x64_linux.zip) and open the backup firmware
 
-  ![uefitool-1](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/uefitool-1.png)
+  ![uefitool-1](media/uefitool-1.png)
 
   Then, press CTRL+F and go to the text tab and type `Intel(R) Gop Driver`
 
-  ![uefitool-2](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/uefitool-2.png)
+  ![uefitool-2](media/uefitool-2.png)
 
   As you can see, there are 2 inputs here, Ivb and Snb, I choose the Ivb one because my processor is Ivy Bridge
 
@@ -244,35 +246,70 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  avsar@archlinux ~/coreboot$
  ```
- Disconnect the USB connection (definitely do it first), take the chip and insert it into the motherboard as in 1.0.
+ Disconnect the USB connection (definitely do it first), take the chip and insert it into the motherboard as in [1.0](#step-10-the-dip-8-thing).
 
 ## Step 4.0: Test time!
 
  If you saw a nice rabbit logo when the computer booted up, yep everything works. (sorry for the bad quality).
 
- ![nice rabbit](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_015914.jpg)
+ ![nice rabbit](media/20240512_015914.jpg)
 
  After that you'll need to put your favourite bootloader in first boot order and run it.
 
- ![image1](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013239.jpg)
+ ![image1](media/20240512_013239.jpg)
 
- ![image2](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013250.jpg)
+ ![image2](media/20240512_013250.jpg)
 
  Save and reboot and you'll get a nice bootloader screen 😸
 
- ![image3](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/20240512_013324.jpg)
+ ![image3](media/20240512_013324.jpg)
 
  The rest is up to you... and these are my OS screenshots.
 
- ![linux](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/linux.png)
- ![windows](https://github.com/lustryrose882/p8h61-m-lx3plus-r2.0-coreboot-guide/blob/main/media/windows.png)
+ ![linux](media/linux.png)
+ ![windows](media/windows.png)
 
- ### And is it over?? IT'S NOT OVER! I'll give you one more little tip.
+# Tips and tricks
 
-## Step 2.3.5: BEEP BOOP BOOP BEEP? Speaker TIME!
+## PCIe Graphics
+ 
+ I talked to ellyq on Discord 2 days before updating this guide, she said she merged PCIPlatformDxe support into her own EDK2 fork, so I tried it and it really worked, many thanks!
+
+ For this you'll need a graphics card that supports GOP, you can find it by using GPU-Z or searching on [TechPowerUp](https://www.techpowerup.com/vgabios/)
+ (*in fact, almost all cards above 2012 have this support*)
+ 
+ ![techpowerup](media/techpowerup.png)
+ 
+ Rather than the configurations in [2.4](#24-configuration), you'll need to do these separately;
+ 
+ ```sh
+ make menuconfig
+
+  Devices ─>
+      Graphics initialization (Run VGA Option ROMs)  --->
+      [ ] Use onboard VGA as primary video device
+      [*] Re-run VGA Option ROMs on S3 resume
+	  [*] Load Option ROMs on PCI devices
+   Payload ─>
+      Payload to add (edk2 payload)  --->
+      Tianocore's EDK II payload (Specify your own repository)  --->
+      (https://github.com/ellyq/edk2) URL to git repository for edk2
+	  (uefipayload_2408) Insert a commit's SHA-1 or a branch name
+      (-D VARIABLE_SUPPORT=SMMSTORE -D LOAD_OPTION_ROMS=TRUE -D SECURE_BOOT_ENABLE=TRUE) edk2 additional custom build parameters
+ ```
+ <table>
+   <tr>
+     <td><img src="media/windows-gpu.png" alt="Windows" width="1500"/></td>
+    <td><img src="media/linux-gpu.png" alt="Linux" width="1500"/></td>
+   </tr>
+ </table>
+
+ For those asking "How does a 16yo video card support GOP??”, here's a [guide](https://winraid.level1techs.com/t/amd-and-nvidia-gop-update-no-requests-diy/30917) 	😊
+
+## Speaker TIME!
 
  Did you miss the opening sound? Yeah, we'll do something similar.
- Go to src/mainboard/asus/h61-series/mainboard.c and add these things and go back to step 2.6
+ Go to src/mainboard/asus/h61-series/mainboard.c and add these things and go back to [step 2.6](#26-build-coreboot)
  ```diff
  --- a/src/mainboard/asus/h61-series/mainboard.c
  +++ b/src/mainboard/asus/h61-series/mainboard.c
@@ -297,9 +334,35 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
   };
  ```
 
+## ~~Getting MAC address from backup BIOS~~
+
+ ~~We'll use uefitool here too, just like in [2.5](#25-extract-the-gop-driver-from-firmware).~~
+
+ ~~Go to the GUID tab through the search and type "FD44820B-F1AB-41C0-AE4E-0C55556EB9BD"~~
+ 
+ ![smbios](media/smbios.png)
+
+ ~~Then select Raw section and press Ctrl+D~~
+
+ ![smbios1](media/smbios1.png)
+
+ ~~Look carefully at the text view where it says 08606EXXXXXX, it will be your MAC address. (08-60-6E is owned by ASUSTek COMPUTER INC.)~~
+ 
+ ![smbios1](media/smbios2.png)
+
+ ~~For example it could be 08606E3F2DE1, it will be different on each device, be careful about this!~~
+
+ ~~Take it in xx:xx:xx:xx:xx:xx format and add it here;~~
+
+ ```sh
+ make menuconfig
+
+ Generic Drivers ─>
+  (08:60:6e:3f:2d:e1) Realtek rt8168 mac address
+ ```
 # Last words
- I've been trying to make this tutorial for about 4 hours.
+ I've been trying to make this tutorial for about 4 + 2 (10.11.2024) hours.
 
  Actually, I didn't want to do it at first, but my friends asked me to add it, so I did some work and prepared a nice guide.
 
- Thank you to the whole coreboot team, Corna for the me_cleaner project and MrChromebox for his help and his excellent EDK2 project.
+ Thank you to the whole coreboot team, Corna for the me_cleaner project, MrChromebox for his help and his excellent EDK2 project and ellyq for her help.
