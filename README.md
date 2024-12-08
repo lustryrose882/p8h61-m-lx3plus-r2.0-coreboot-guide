@@ -36,7 +36,9 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - Hibernation
 - Serial Port (in fact, the serial port doesn't even have a port)
 ### Known bugs
-- Sound doesn't work properly on Linux (ALSA issue), but Windows seems fine
+- ~~Sound doesn't work properly on Linux (ALSA issue), but Windows seems fine~~
+
+ Fixed, I created CMOS table and new sound pins, AC'97 setting is now working
 - Even if I define the MAC address it doesn't work, I guess someone else experienced it here [too](https://mail.coreboot.org/hyperkitty/list/coreboot@coreboot.org/message/ZVHCIZCB5H6P26CYX22BHZCV64AJVFII/)
 
 # Preparing
