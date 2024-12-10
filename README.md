@@ -336,25 +336,27 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
   };
  ```
 
-## ~~Getting MAC address from backup BIOS~~
+## Getting MAC address from backup BIOS
 
- ~~We'll use uefitool here too, just like in [2.5](#25-extract-the-gop-driver-from-firmware).~~
+ **IMPORTANT**: You'll need to use [my fork](https://github.com/lustryrose882/betel-coreboot-playground) to make this work.
 
- ~~Go to the GUID tab through the search and type "FD44820B-F1AB-41C0-AE4E-0C55556EB9BD"~~
+ We'll use uefitool here too, just like in [2.5](#25-extract-the-gop-driver-from-firmware).
+
+ Go to the GUID tab through the search and type "FD44820B-F1AB-41C0-AE4E-0C55556EB9BD"
  
  ![smbios](media/smbios.png)
 
- ~~Then select Raw section and press Ctrl+D~~
+ Then select Raw section and press Ctrl+D
 
  ![smbios1](media/smbios1.png)
 
- ~~Look carefully at the text view where it says 08606EXXXXXX, it will be your MAC address. (08-60-6E is owned by ASUSTek COMPUTER INC.)~~
+ Look carefully at the text view where it says 08606EXXXXXX, it will be your MAC address. (08-60-6E is owned by ASUSTek COMPUTER INC.)
  
  ![smbios1](media/smbios2.png)
 
- ~~For example it could be 08606E3F2DE1, it will be different on each device, be careful about this!~~
+ For example it could be 08606E3F2DE1, it will be different on each device, be careful about this!
 
- ~~Take it in xx:xx:xx:xx:xx:xx format and add it here;~~
+ Take it in xx:xx:xx:xx:xx:xx format and add it here;
 
  ```sh
  make menuconfig
