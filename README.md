@@ -39,7 +39,9 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - ~~Sound doesn't work properly on Linux (ALSA issue), but Windows seems fine~~
 
  Fixed, I created CMOS table and new sound pins, AC'97 setting is now working
-- Even if I define the MAC address it doesn't work, I guess someone else experienced it here [too](https://mail.coreboot.org/hyperkitty/list/coreboot@coreboot.org/message/ZVHCIZCB5H6P26CYX22BHZCV64AJVFII/)
+- ~~Even if I define the MAC address it doesn't work, I guess someone else experienced it here [too](https://mail.coreboot.org/hyperkitty/list/coreboot@coreboot.org/message/ZVHCIZCB5H6P26CYX22BHZCV64AJVFII/)~~
+
+ Fixed, It reads the MAC address via ERIAR instead of MAC0, so I implemented the ERIAR side.
 
 # Preparing
 
@@ -70,19 +72,18 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  (You can do this 2 times to make sure that the hashes of these two backup roms are same).
  ```sh
- sudo flashrom --programmer ch341a_spi -r backup1.bin
+ sudo flashrom -c "W25Q64BV/W25Q64CV/W25Q64FV" --programmer ch341a_spi -r backup1.bin
  diff backup.bin backup1.bin
 ```
 
  If you get a terminal output like this, you have successfully backed up!
  ```sh
- avsar@archlinux ~$ sudo flashrom --programmer ch341a_spi -r backup.bin                                                                                                                                                                     
+ avsar@archlinux ~$ sudo flashrom -c "W25Q64BV/W25Q64CV/W25Q64FV" --programmer ch341a_spi -r backup.bin                                                                                                                                                                     
  [sudo] password for avsar: 
- flashrom v1.2 on Linux 6.8.9-zen1-1.1-zen (x86_64)
+ flashrom 1.4.0 (git:v1.4.0) on Linux 6.12.1-arch1-1 (x86_64)
  flashrom is free software, get the source code at https://flashrom.org
  
- Using clock_gettime for delay loops (clk_id: 1, resolution: 1ns).
- Found Winbond flash chip "W25Q64.V" (8192 kB, SPI) on ch341a_spi.
+ Found Winbond flash chip "W25Q64BV/W25Q64CV/W25Q64FV" (8192 kB, SPI) on ch341a_spi.
  Reading flash... done.
  
  avsar@archlinux ~$
@@ -230,20 +231,19 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  Now we need to flash the compiled file.
  ```sh
- sudo flashrom --programmer ch341a_spi -w build/coreboot.rom
+ sudo flashrom -c "W25Q64BV/W25Q64CV/W25Q64FV" --programmer ch341a_spi -w build/coreboot.rom
  ```
 
  If everything is fine, you should get an output like
  ```sh
- avsar@archlinux ~/coreboot$ sudo flashrom --programmer ch341a_spi -w build/coreboot.rom
+ avsar@archlinux ~/coreboot$ sudo flashrom -c "W25Q64BV/W25Q64CV/W25Q64FV" --programmer ch341a_spi -w build/coreboot.rom
  [sudo] password for avsar:
- flashrom v1.2 on Linux 6.8.9-zen1-1.1-zen (x86_64)
+ flashrom 1.4.0 (git:v1.4.0) on Linux 6.12.1-arch1-1 (x86_64)
  flashrom is free software, get the source code at https://flashrom.org
  
- Using clock_gettime for delay loops (clk_id: 1, resolution: 1ns).
- Found Winbond flash chip "W25Q64.V" (8192 kB, SPI) on ch341a_spi.
+ Found Winbond flash chip "W25Q64BV/W25Q64CV/W25Q64FV" (8192 kB, SPI) on ch341a_spi.
  Reading old flash chip contents... done.
- Erasing and writing flash chip... Erase/write done.
+ Erase/write done from 0 to 7fffff
  Verifying flash... VERIFIED.
 
  avsar@archlinux ~/coreboot$
