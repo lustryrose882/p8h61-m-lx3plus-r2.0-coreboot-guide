@@ -25,7 +25,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - Sound
 - All USB Ports
 - Display
-- S3 Sleep Mode
+- Hibernation (S4 thing)
 - Ethernet
 - Windows (don't use that 😛)
 - Neutralised Intel ME
@@ -33,15 +33,22 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - PCI-e Graphics (see [below](#pcie-graphics))
 ### Untested
 - PS/2 Input
-- Hibernation
 - Serial Port (in fact, the serial port doesn't even have a port)
 ### Known bugs
 - ~~Sound doesn't work properly on Linux (ALSA issue), but Windows seems fine~~
 
- Fixed, I created CMOS table and new sound pins, AC'97 setting is now working
+	Fixed, I created CMOS table and new sound pins, AC'97 setting is now working.
 - ~~Even if I define the MAC address it doesn't work, I guess someone else experienced it here [too](https://mail.coreboot.org/hyperkitty/list/coreboot@coreboot.org/message/ZVHCIZCB5H6P26CYX22BHZCV64AJVFII/)~~
 
- Fixed, It reads the MAC address via ERIAR instead of MAC0, so I implemented the ERIAR side.
+	Fixed, It reads the MAC address via ERIAR instead of MAC0, so I implemented the ERIAR side.
+
+- S3 Sleep Mode
+
+	On Linux, you need to put it to sleep twice (IDK the reason why).
+
+	Works fine on iGPU side on Windows, but not on dGPU side.
+
+	I didn't see any problem on OpenBSD, it works fine on both GPUs.
 
 # Preparing
 
@@ -270,6 +277,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
  ![linux](media/linux.png)
  ![windows](media/windows.png)
+ ![openbsd](media/openbsd-igpu.png)
 
 # Tips and tricks
 
@@ -301,8 +309,9 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
  ```
  <table>
    <tr>
-     <td><img src="media/windows-gpu.png" alt="Windows" width="1500"/></td>
-    <td><img src="media/linux-gpu.png" alt="Linux" width="1500"/></td>
+     <td><img src="media/windows-gpu.png" alt="Windows" width="1600"/></td>
+    <td><img src="media/linux-gpu.png" alt="Linux" width="1600"/></td>
+	<td><img src="media/openbsd-dgpu.png" alt="Linux" width="1600"/></td>
    </tr>
  </table>
 
