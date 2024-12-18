@@ -31,6 +31,7 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 - Neutralised Intel ME
 - UEFI + Secure Boot
 - PCI-e Graphics (see [below](#pcie-graphics))
+- Wake On LAN
 ### Untested
 - PS/2 Input
 - Serial Port (in fact, the serial port doesn't even have a port)
