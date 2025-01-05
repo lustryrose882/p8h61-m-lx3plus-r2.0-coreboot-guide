@@ -45,11 +45,17 @@ From [Tianocore](https://github.com/tianocore/edk2/blob/master/ReadMe.rst): A mo
 
 - S3 Sleep Mode
 
-	On Linux, you need to put it to sleep twice (IDK the reason why).
+  	On Linux, it works, but see below.
 
-	Works fine on iGPU side on Windows, but not on dGPU side.
+  	On Windows the dGPU side fails to display after suspend.
 
-	I didn't see any problem on OpenBSD, it works fine on both GPUs.
+  	I didn't see any problem on OpenBSD, it works fine on both GPUs. (Missing wake sources?)
+
+	I think the reason is missing/incorrect ACPI configuration, or even missing Super I/O configuration.
+
+	Normally, when we press the keyboard, it should wake up from sleep mode; but here, as soon as we enter sleep mode, it suddenly detects an event?? and wakes us up from sleep.
+
+ 	For now, we can solve this by disabling the EHC2 side on Linux (`/proc/acpi/wakeup`), and by disabling the wake-up feature of the USB root device on Windows.
 
 # Preparing
 
